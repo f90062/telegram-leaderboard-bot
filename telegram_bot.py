@@ -140,4 +140,12 @@ def main():
     for cmd, fn in [('start',start),('play',play),('rank',rank),('myscore',myscore),('stop',stop),('reset',reset_cmd)]:
         app.add_handler(CommandHandler(cmd, fn))
     app.add_handler(CallbackQueryHandler(btn, pattern=r'^g_'))
-    app.job_queue.run_weekly(weekly_reset, time(RESET_HOUR, RE
+    app.job_queue.run_weekly(
+        weekly_reset,
+        time(RESET_HOUR, RESET_MINUTE, tzinfo=TZ),
+        days=(0,)
+    )
+    app.run_polling()
+
+if __name__ == '__main__':
+    main()
